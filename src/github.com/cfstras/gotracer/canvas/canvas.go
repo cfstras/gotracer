@@ -3,7 +3,7 @@ package canvas
 import (
 	"image"
 	"image/color"
-	"vec"
+	"github.com/cfstras/gotracer/vec"
 )
 
 type Canvas struct {

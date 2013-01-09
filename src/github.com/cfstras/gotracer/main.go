@@ -2,8 +2,8 @@ package main
 
 import(
 	"fmt"
-	"canvas"
-	"vec"
+	"github.com/cfstras/gotracer/canvas"
+	"github.com/cfstras/gotracer/vec"
 	"os"
 	"image/png"
 )
