@@ -1,4 +1,4 @@
-package canvas
+package trace
 
 import (
 	"image"
@@ -14,7 +14,7 @@ type Canvas struct {
 	Exposures int
 }
 
-func New(size vec.V2i) Canvas {
+func NewCanvas(size vec.V2i) Canvas {
 	c := Canvas{}
 	c.Size = size
 	c.Model = color.RGBAModel
