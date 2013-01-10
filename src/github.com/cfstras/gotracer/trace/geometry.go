@@ -1,6 +1,7 @@
 package trace
 
 import(
+	"math"
 	"github.com/cfstras/gotracer/vec"
 )
 
@@ -17,11 +18,12 @@ type Obj struct {
 	Color vec.C3d
 }
 
-func (r Ray) Intersect (t Tri) (hit bool, depth float64, intersect vec.V3d){
+func (r *Ray) Intersect (t *Tri) (hit bool, depth float64, intersect vec.V3d){
 	
 	var v1, v2, norm vec.V3d
 	var dot, dist float64
 	hit = false;
+	depth = math.Inf(1)
 	
 	//vectors from triangle base to edges
 	v1 = t.V1.Sub(t.V0)
@@ -52,7 +54,7 @@ func (r Ray) Intersect (t Tri) (hit bool, depth float64, intersect vec.V3d){
 	return
 }
 
-func (r Ray) checkDir (v0, v1, v2, norm vec.V3d) bool {  
+func (r *Ray) checkDir (v0, v1, v2, norm vec.V3d) bool {  
 	//answer
 	if( v1.Sub(v0).Cross( v2.Sub(v0) ).Dot(norm) < 0) {
 		return false;

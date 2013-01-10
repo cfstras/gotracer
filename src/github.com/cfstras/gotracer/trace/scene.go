@@ -19,23 +19,23 @@ type Scene struct {
 	Bg vec.C3d
 }
 
-func NewScene(canvas *Canvas) Scene {
-	s := Scene{Canvas: canvas}
-	s.Res = canvas.Size
-	s.Objs = make([]Obj,2)
-	s.ViewDir = vec.D(0.0, 0.0, 1.0)
-	s.RightDir = vec.D(1.0, 0.0, 0.0)
-	s.UpDir = vec.D(0.0, 1.0, 0.0)
-	s.Fov = 90;
+func NewScene(canvas *Canvas) *Scene {
+	s := Scene{Canvas: canvas,
+		Res: canvas.Size,
+		Objs: make([]Obj,0,2),
+		CameraPos: vec.D(0.0,0.0,0.0),
+		ViewDir: vec.D(0.0, 0.0, 1.0),
+		RightDir: vec.D(1.0, 0.0, 0.0),
+		UpDir: vec.D(0.0, 1.0, 0.0),
+		Fov: 90,
+		Bg: vec.C(0.0,0.0,0.5)}
 	
 	height := 2.0 * math.Tan(s.Fov/2.0)
 	s.ViewPlane = vec.D2( // viewplane at distance 1.0
 		(height * float64(s.Res.X)) / float64(s.Res.Y),
 		height)
 	
-	s.Bg = vec.C(0.0,0.0,0.5)
-	
-	return s
+	return &s
 }
 
 func (s *Scene) Trace() {
@@ -46,9 +46,10 @@ func (s *Scene) Trace() {
 			s.Canvas.Pixels[x + y * s.Res.X] = s.traceRay(ray, recursion)
 		}
 	}
+	s.Canvas.Exposures++
 }
 
-func (s *Scene) Ray(pix vec.V2i) Ray {
+func (s *Scene) Ray(pix vec.V2i) *Ray {
 	offsetX := s.ViewPlane.X * (float64(pix.X) / float64(s.Res.X) - 0.5 + 0.5 / float64(s.Res.X))
 	offsetY := -s.ViewPlane.Y * (float64(pix.Y) / float64(s.Res.Y) - 0.5 + 0.5 / float64(s.Res.Y))
 	
@@ -56,16 +57,16 @@ func (s *Scene) Ray(pix vec.V2i) Ray {
 	planeOffY := s.UpDir.Mul(offsetY)
 	
 	dir := s.ViewDir.Add(planeOffX).Add(planeOffY);
-	return Ray{s.CameraPos, dir}
+	return &Ray{s.CameraPos, dir}
 }
 
-func (s *Scene) traceRay (ray Ray, recurse int) vec.C3d {
+func (s *Scene) traceRay (ray *Ray, recurse int) vec.C3d {
 	depth := math.Inf(1)
 	var hitObj Obj;
 	//var hitTri Tri;
 	for _, obj := range s.Objs {
 		for _, tri := range obj.Tris {
-			if hit, length, _ := ray.Intersect(tri); hit && length <= depth {
+			if hit, length, _ := ray.Intersect(&tri); hit && length <= depth {
 				depth = length
 				//TODO reflect
 				hitObj = obj

@@ -14,13 +14,12 @@ type Canvas struct {
 	Exposures int
 }
 
-func NewCanvas(size vec.V2i) Canvas {
-	c := Canvas{}
-	c.Size = size
-	c.Model = color.RGBAModel
-	c.Pixels = make([]vec.C3d,size.X*size.Y)
-	c.Exposures = 0
-	return c
+func NewCanvas(size vec.V2i) *Canvas {
+	c := Canvas{Size: size,
+		Model: color.RGBAModel,
+		Pixels: make([]vec.C3d,size.X*size.Y),
+		Exposures: 0}
+	return &c
 }
 
 func (c Canvas) ColorModel() color.Model {
@@ -34,6 +33,6 @@ func (c Canvas) Bounds() image.Rectangle {
 func (c Canvas) At (x, y int) color.Color {
 	pixel := c.Pixels[x + y * c.Size.X]
 	pixel.DivTo(float64(c.Exposures))
-	pixel.MulTo(256)
+	pixel.MulTo(255)
 	return color.RGBA{uint8(pixel.R), uint8(pixel.G), uint8(pixel.B), uint8(255)}
 }
