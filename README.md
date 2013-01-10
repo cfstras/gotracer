@@ -1,3 +1,5 @@
+![An output of gotracer](http://i.imgur.com/Bnjyt.png "This is how it could look")
+
 goTracer
 ========
 
