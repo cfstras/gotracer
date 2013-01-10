@@ -38,6 +38,7 @@ func (r *Ray) Intersect(t *Tri) (hit bool, depth float64, intersect vec.V3d) {
 	if dot < 0 {
 		//find intersect distance on ray
 		dist = -(norm.X*(r.P.X-t.V0.X) + norm.Y*(r.P.Y-t.V0.Y) + norm.Z*(r.P.Z-t.V0.Z)) / dot
+		dist = -( norm.Dot( r.P.Sub(t.V0) ) ) / dot
 
 		//if negative, line started after the triangle
 		if dist < 0 {

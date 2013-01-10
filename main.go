@@ -6,6 +6,7 @@ import (
 	"github.com/cfstras/gotracer/vec"
 	"image/png"
 	"os"
+	"time"
 )
 
 func main() {
@@ -25,9 +26,14 @@ func test() {
 	obj.Tris = make([]trace.Tri, 0, 1)
 	obj.Tris = append(obj.Tris, tri)
 	scene.Objs = append(scene.Objs, obj)
-
+	
+	start := time.Now()
 	scene.Trace()
+	fmt.Println("Tracing took",time.Now().Sub(start))
+	
+	start = time.Now()
 	save(canv, "test.png")
+	fmt.Println("Exporting took",time.Now().Sub(start))
 }
 
 func save(canv *trace.Canvas, file string) {
@@ -39,4 +45,10 @@ func save(canv *trace.Canvas, file string) {
 
 	png.Encode(fo, canv)
 	fo.Sync()
+}
+
+func Measure(f func(), name string) {
+	start := time.Now()
+	f()
+	fmt.Println(name,"took",time.Now().Sub(start))
 }
