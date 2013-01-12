@@ -1,7 +1,7 @@
 package trace
 
 import (
-	"github.com/cfstras/gotracer/vec"
+	"vec"
 	"image"
 	"image/color"
 )

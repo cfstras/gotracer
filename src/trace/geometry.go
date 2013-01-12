@@ -1,7 +1,7 @@
 package trace
 
 import (
-	"github.com/cfstras/gotracer/vec"
+	"vec"
 	"math"
 )
 
@@ -16,10 +16,11 @@ type Ray struct {
 type Obj struct {
 	Tris  []Tri
 	Color vec.C3d
+	Smooth bool
+	Name string
 }
 
 func (r *Ray) Intersect(t *Tri) (hit bool, depth float64, intersect vec.V3d) {
-
 	var v1, v2, norm vec.V3d
 	var dot, dist float64
 	hit = false

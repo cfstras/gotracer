@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/cfstras/gotracer/trace"
-	"github.com/cfstras/gotracer/vec"
+	"trace"
+	"vec"
 	"image/png"
 	"os"
 	"time"
@@ -21,13 +21,17 @@ func test() {
 	canv := trace.NewCanvas(vec.I(100, 100))
 	scene := trace.NewScene(canv)
 
-	tri := trace.Tri{vec.D(-5.0, 5.0, 5.0), vec.D(0.0, -5.0, 5.0), vec.D(5.0, 5.0, 5.0)}
+	/*tri := trace.Tri{vec.D(-5.0, 5.0, 5.0), vec.D(0.0, -5.0, 5.0), vec.D(5.0, 5.0, 5.0)}
 	obj := trace.Obj{Color: vec.C(0.0, 1.0, 0.0)}
 	obj.Tris = make([]trace.Tri, 0, 1)
 	obj.Tris = append(obj.Tris, tri)
-	scene.Objs = append(scene.Objs, obj)
+	scene.Objs = append(scene.Objs, obj)*/
 	
 	start := time.Now()
+	trace.Parse("cubes.obj", scene);
+	fmt.Println("Parsing took",time.Now().Sub(start))
+	
+	start = time.Now()
 	scene.Trace()
 	fmt.Println("Tracing took",time.Now().Sub(start))
 	

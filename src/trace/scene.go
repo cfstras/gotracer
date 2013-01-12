@@ -1,7 +1,7 @@
 package trace
 
 import (
-	"github.com/cfstras/gotracer/vec"
+	"vec"
 	"math"
 )
 
@@ -10,7 +10,7 @@ const recursion = 5
 type Scene struct {
 	Canvas *Canvas
 	Res    vec.V2i
-	Objs   []Obj
+	Objs   []*Obj
 
 	ViewPlane                           vec.V2d
 	CameraPos, ViewDir, RightDir, UpDir vec.V3d
@@ -22,7 +22,7 @@ type Scene struct {
 func NewScene(canvas *Canvas) *Scene {
 	s := Scene{Canvas: canvas,
 		Res:       canvas.Size,
-		Objs:      make([]Obj, 0, 2),
+		Objs:      make([]*Obj, 0, 2),
 		CameraPos: vec.D(0.0, 0.0, 0.0),
 		ViewDir:   vec.D(0.0, 0.0, 1.0),
 		RightDir:  vec.D(1.0, 0.0, 0.0),
@@ -62,7 +62,7 @@ func (s *Scene) Ray(pix vec.V2i) *Ray {
 
 func (s *Scene) traceRay(ray *Ray, recurse int) vec.C3d {
 	depth := math.Inf(1)
-	var hitObj Obj
+	var hitObj *Obj
 	//var hitTri Tri;
 	for _, obj := range s.Objs {
 		for _, tri := range obj.Tris {
