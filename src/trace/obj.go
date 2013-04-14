@@ -120,6 +120,9 @@ func (p *parser) addFace(args []string) {
 		//TODO check errors
 		tri := Tri{p.verts[v1],p.verts[v2],p.verts[v3]}
 		p.currentObj.Tris = append(p.currentObj.Tris,tri)
+		if debug {
+			fmt.Println("Tri",tri)
+		}
 	case len(args) == 4:
 		v1, _ := strconv.Atoi(args[0])
 		v2, _ := strconv.Atoi(args[1])
@@ -127,6 +130,10 @@ func (p *parser) addFace(args []string) {
 		v4, _ := strconv.Atoi(args[3])
 		tri1 := Tri{p.verts[v1],p.verts[v2],p.verts[v3]}
 		tri2 := Tri{p.verts[v1],p.verts[v3],p.verts[v4]}
+		if debug {
+			fmt.Println("Tri",tri1)
+			fmt.Println("Tri",tri2)
+		}
 		p.currentObj.Tris = append(p.currentObj.Tris,tri1,tri2)
 	default:
 		fmt.Println("no idea what to do with vertex",args)	

@@ -18,7 +18,7 @@ func main() {
 }
 
 func test() {
-	canv := trace.NewCanvas(vec.I(100, 100))
+	canv := trace.NewCanvas(vec.I(800, 600))
 	scene := trace.NewScene(canv)
 
 	/*tri := trace.Tri{vec.D(-5.0, 5.0, 5.0), vec.D(0.0, -5.0, 5.0), vec.D(5.0, 5.0, 5.0)}
